@@ -41,7 +41,7 @@ class MLLogger(object):
                 self.initialize(self.__instance__, root_dir)
         return self.__instance__
 
-    def initialize(self, root_dir=None, dir_name=None, debug=False):
+    def initialize(self, root_dir=None, dir_name=None, prefix=None, debug=False):
         if self.root_dir is None and root_dir is not None:
             self.root_dir = root_dir
         elif self.root_dir is None and root_dir is None:
@@ -49,7 +49,7 @@ class MLLogger(object):
         date = datetime.datetime.now()
 
         # Use current date as default output folder name
-        self.dir_name = date.strftime('%y%m%d_%H%M%S') if dir_name is None else dir_name
+        self.dir_name = dir_name if dir_name is not None else prefix + "_" + date.strftime('%y%m%d_%H%M%S') if prefix is not None else date.strftime('%y%m%d_%H%M%S')
         self.save_dir = os.path.join(self.root_dir, self.dir_name)
         self.logger.setLevel(self.level)
         self.debug = debug
